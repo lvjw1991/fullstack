@@ -1,23 +1,7 @@
 import { useState } from 'react'
 
-const Statistics = (props) => {
-    // ...
-	return (
-		<p>
-	  {props.name} is {props.value}	 
-	  </p>
-	  )
-}
-
-const Button = (props) => {
-  return (
-    <button onClick={props.onClick}>
-      {props.text}
-    </button>
-  )
-} 
-  
 const App = () => {
+  // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
@@ -59,16 +43,27 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-	    <Button onClick={chooseGood} text='good'/>
-		<Button onClick={chooseNeutral} text='neutral'/>
-		<Button onClick={chooseBad} text='bad'/>
-	 <h1>statistics</h1>
-	 <Statistics name='good' value={good}/>
-	 <Statistics name='neutral' value={neutral}/>
-	 <Statistics name='bad' value={bad}/>
-	 <Statistics name='total' value={total}/>
-	 <Statistics name='average' value={average}/>
-	 <Statistics name='positive' value={positive}/>
+		<button onClick={chooseGood}>
+		good
+        </button>
+		<button onClick={chooseNeutral}>
+		neutral
+        </button>
+		<button onClick={chooseBad} >
+		bad
+        </button>
+	  <h1>statistics</h1>
+	  good is {good}
+	  <br/>
+	  neutral is {neutral}
+	  <br/>
+	  bad is {bad}
+	  <br/>
+	  total is {total}
+	  <br/>
+	  average is {average}
+	  <br/>
+	  positive is {positive} %
     </div>
   )
 }
