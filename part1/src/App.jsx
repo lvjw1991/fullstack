@@ -1,74 +1,79 @@
 import { useState } from 'react'
 
-const Statistics = (props) => {
-    // ...
-	return (
-		<p>
-	  {props.name} is {props.value}	 
-	  </p>
-	  )
+const Display = (props) => {
+const numArr=props.points
+const textArr=props.anecdotes
+let index=0;
+let count=0;
+for(let i=0;i<numArr.length;i++){
+	if(numArr[i]>count){
+		index=i;
+		count=numArr[i];
+	}
+}
+if(count>0){
+return (
+<div>
+<h1>anecdote with most votes</h1>
+<p>   {textArr[index]}</p>
+    </div>
+  )
+}
+  return (
+<div>
+    </div>
+  )
 }
 
 const Button = (props) => {
   return (
+<div>
     <button onClick={props.onClick}>
       {props.text}
     </button>
+</div>
   )
-} 
-  
+}
+
 const App = () => {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [total, setTotal] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positive, setPositive] = useState(0)
-  
-  const chooseGood = () => {
-	  const updateGood=good+1
-	  setGood(updateGood)
-	  //setGood((good) => good + 1)
-	  const updateTotal=updateGood+neutral+bad
-	  setTotal(updateTotal)
-	  setAverage(updateGood*1+bad*(-1))
-	  setPositive(updateGood/updateTotal*100)
+  const anecdotes = [
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
+  ]
+
+  const [selected, setSelected] = useState(0)
+const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0])
+
+
+
+function getRandomIntInclusive(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // 包含最小值和最大值
+}
+
+const chooseSelected = () => {
+	  setSelected(getRandomIntInclusive(0,anecdotes.length-1))
   }
-  
-  const chooseNeutral = () => {
-	  const updateNeutral=neutral+1
-	  setNeutral(updateNeutral)
-	  //setNeutral((neutral) => neutral + 1)
-	  const updateTotal=good+updateNeutral+bad
-	  setTotal(updateTotal)
-	  setAverage(good*1+bad*(-1))
-	  setPositive(good/updateTotal*100)
+
+const vote = () => {
+const copy = [...points]
+copy[selected] += 1
+setPoints(copy)
   }
-  
-  const chooseBad = () => {
-	  const updateBad=bad+1
-	  setBad(updateBad)
-	  //setBad((bad) => bad + 1)
-	  const updateTotal=good+neutral+updateBad
-	  setTotal(updateTotal)
-	  setAverage(good*1+updateBad*(-1))
-	  setPositive(good/updateTotal*100)
-  }
-  
 
   return (
     <div>
-      <h1>give feedback</h1>
-	    <Button onClick={chooseGood} text='good'/>
-		<Button onClick={chooseNeutral} text='neutral'/>
-		<Button onClick={chooseBad} text='bad'/>
-	 <h1>statistics</h1>
-	 <Statistics name='good' value={good}/>
-	 <Statistics name='neutral' value={neutral}/>
-	 <Statistics name='bad' value={bad}/>
-	 <Statistics name='total' value={total}/>
-	 <Statistics name='average' value={average}/>
-	 <Statistics name='positive' value={positive}/>
+<h1>anecdote of the day</h1>
+   <p>   {anecdotes[selected]}</p>
+<button onClick={vote}>vote</button>
+<Button onClick={chooseSelected} text='next anecdote'/>
+<Display points={points} anecdotes={anecdotes} />
     </div>
   )
 }
