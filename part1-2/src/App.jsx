@@ -99,15 +99,14 @@ const App = () => {
     const personObject = {
       name: newName,
 	  number: newNum,
-	  id: persons.length+1
     }
 	
 	axios
-      .post(baseUrl, personObject)
+      .post(baseUrl, personObject);
+	axios
+      .get(baseUrl)
       .then(response => {
-        setPersons(persons.concat(personObject))
-		setNewName('')
-		setNewNum('')
+        setPersons(response.data)
       })
 
   }
